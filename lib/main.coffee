@@ -2,6 +2,13 @@
 EpitechNorm = require('./epitech-norm')
 
 module.exports =
+  config:
+    autoActivateOnCSource:
+      type: 'boolean'
+      default: true
+    autoCheckNorm:
+      type: 'boolean'
+      default: false
 
   normByEditor: null
 
@@ -14,15 +21,17 @@ module.exports =
       norm = new EpitechNorm(editor)
       @normByEditor.set(editor, norm)
 
-      editor.onDidStopChanging () => getNorm(activeEditor())?.checkNorm()
+      editor.onDidStopChanging () =>
+        getNorm(activeEditor())?.checkNorm() if atom.config.get('epitech-norm.autoCheckNorm')
 
     getNorm = (e) =>
-      @normByEditor.get(e)
+      return null unless e and @normByEditor
+      return @normByEditor.get(e)
 
     activeEditor = () =>
       atom.workspace.getActiveTextEditor()
 
-    atom.commands.add 'atom-text-editor:not([mini])',
+    atom.commands.add 'atom-workspace',
       'epitech-norm:enable': =>
         getNorm(activeEditor())?.norm()
       'epitech-norm:disable': =>

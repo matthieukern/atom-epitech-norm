@@ -5,7 +5,7 @@
 ** Login   <kern_m@epitech.eu>
 **
 ** Started on  Sat Apr 18 17:27:31 2015 Matthieu Kern
-** Last update Sat Apr 18 22:53:05 2015 Matthieu Kern
+** Last update Sun Apr 19 00:07:20 2015 Matthieu Kern
 */
 
 #include <stdio.h>
@@ -75,11 +75,8 @@ void fun3()
   // cette ligne fait plus de 80 caracteres,			c'est pas bien ça va
   // test de commentaire dans le code
   /* bite chatte */ printf("test");
-
   if (1)
-  {
-
-  }
+    ;
 }
 
 void	fun4( int a )
