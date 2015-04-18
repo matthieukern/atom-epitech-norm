@@ -8,7 +8,7 @@ class EpitechNorm
 
   constructor: (@editor) ->
     @defaultTabLength = atom.config.get 'editor.tabLength'
-    [..., fileName] = editor.getPath().split "/"
+    [..., fileName] = @editor.getPath().split "/"
     if atom.config.get('epitech-norm.autoActivateOnCSource')
       if fileName.match /^.*\.[ch]$/ then @norm()
     @normChecker = new EpitechNormChecker(@editor)
