@@ -5,7 +5,7 @@
 ** Login   <kern_m@epitech.eu>
 **
 ** Started on  Sat Apr 18 17:27:31 2015 Matthieu Kern
-** Last update Sat Apr 18 17:28:02 2015 Matthieu Kern
+** Last update Sat Apr 18 22:53:05 2015 Matthieu Kern
 */
 
 #include <stdio.h>
@@ -30,7 +30,7 @@ int	main()
       }
     }
   }
-  if (1)
+  if(1)
     if (1)
       if (1)
       {
@@ -50,7 +50,48 @@ int	main()
   printf("bite");
   printf("bite");
   if (1) {
-    printf("caca");
+    printf("caca") ;
   }
   return (0);
+}
+
+void fun1()
+{
+
+}
+
+void	fun2()
+{
+  int	a;
+
+  if (1)
+  {
+    printf("test");
+  }
+}
+
+void fun3()
+{
+  // cette ligne fait plus de 80 caracteres,			c'est pas bien ça va
+  // test de commentaire dans le code
+  /* bite chatte */ printf("test");
+
+  if (1)
+  {
+
+  }
+}
+
+void	fun4( int a )
+{
+  double	w;
+  int	z;
+
+  z = 3;
+  printf("%d\n", z);
+}
+
+void fun5()
+{
+
 }

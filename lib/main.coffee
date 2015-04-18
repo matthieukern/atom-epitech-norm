@@ -14,6 +14,8 @@ module.exports =
       norm = new EpitechNorm(editor)
       @normByEditor.set(editor, norm)
 
+      editor.onDidStopChanging () => getNorm(activeEditor())?.checkNorm()
+
     getNorm = (e) =>
       @normByEditor.get(e)
 
@@ -31,3 +33,5 @@ module.exports =
         getNorm(activeEditor())?.insertTab(e)
       'epitech-norm:newLine': (e) =>
         getNorm(activeEditor())?.insertNewLine(e)
+      'epitech-norm:checkNorm': (e) =>
+        getNorm(activeEditor())?.checkNorm(e)

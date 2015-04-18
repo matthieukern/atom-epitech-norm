@@ -1,15 +1,16 @@
-#marker = editor.markBufferRange([[0,0],[0,10]], invalidate: 'inside')
-#editor.decorateMarker(marker, {type: 'highlight', class: 'norm-error'})
+EpitechNormChecker = require('./epitech-norm-checker')
 
 module.exports =
 class EpitechNorm
   activated: false
   defaultTabLength: 0
+  normChecker: null
 
   constructor: (@editor) ->
     @defaultTabLength = atom.config.get 'editor.tabLength'
     [..., fileName] = editor.getPath().split "/"
     if fileName.match /^.*\.[ch]$/ then @norm()
+    @normChecker = new EpitechNormChecker(@editor)
 
   norm: ->
     @activated = true
@@ -20,7 +21,9 @@ class EpitechNorm
     @editor.setTabLength @defaultTabLength
 
   indent: (e) ->
-    return e.abortKeyBinding() unless @activated or @editor.hasMultipleCursors()
+    unless @activated or @editor.hasMultipleCursors()
+      e.abortKeyBinding() if e
+      return
 
     @editor.moveToEndOfLine()
     [row, col] = @editor.getCursorBufferPosition().toArray()
@@ -65,10 +68,20 @@ class EpitechNorm
     return ""
 
   insertTab: (e) ->
-    return e.abortKeyBinding() unless @activated
+    unless @activated
+      e.abortKeyBinding() if e
+      return
     @editor.insertText "\t"
 
   insertNewLine: (e) ->
-    return e.abortKeyBinding() unless @activated
+    unless @activated
+      e.abortKeyBinding() if e
+      return
     @editor.insertText "\n"
     @indent e
+
+  checkNorm: (e) ->
+    unless @activated
+      e.abortKeyBinding() if e
+      return
+    @normChecker.check() if @normChecker
