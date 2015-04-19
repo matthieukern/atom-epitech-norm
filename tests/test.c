@@ -5,7 +5,7 @@
 ** Login   <kern_m@epitech.eu>
 **
 ** Started on  Sun Apr 19 01:47:46 2015 Matthieu Kern
-** Last update Sun Apr 19 01:53:02 2015 Matthieu Kern
+** Last update Sun Apr 19 23:26:50 2015 Matthieu Kern
 */
 
 #include <stdio.h>
@@ -57,7 +57,7 @@ int	main()
 
 void fun1()
 {
-
+  if (1) {}
 }
 
 void	fun2()

@@ -22,10 +22,14 @@ class EpitechNorm
       e.abortKeyBinding() if e
       return
 
-    @editor.moveToEndOfLine()
-    [row, col] = @editor.getCursorBufferPosition().toArray()
-    @editor.setTextInBufferRange([[row, 0], [row, col]], @getIndentedRow row)
-    @editor.moveToEndOfLine()
+    @editor.transact =>
+      [saveRow, saveCol] = @editor.getCursorBufferPosition().toArray()
+      @editor.moveToEndOfLine()
+      [row, col] = @editor.getCursorBufferPosition().toArray()
+      line = @editor.getText().split("\n")[row]
+      indentedRow = @getIndentedRow row
+      @editor.setTextInBufferRange([[row, 0], [row, col]], indentedRow)
+      @editor.setCursorBufferPosition([saveRow, saveCol + indentedRow.length - line.length])
 
   getIndentedRow: (lineNb) ->
     ind = 0
@@ -68,11 +72,24 @@ class EpitechNorm
     unless @activated
       e.abortKeyBinding() if e
       return
-    @editor.insertText "\t"
+    @editor.insertText '\t'
 
   insertNewLine: (e) ->
     unless @activated
       e.abortKeyBinding() if e
       return
-    @editor.insertText "\n"
-    @indent e
+
+    @editor.transact =>
+      [row, col] = @editor.getCursorBufferPosition().toArray()
+      line = @editor.getText().split("\n")[row]
+
+      if line.charAt(col - 1) is '{' and line.charAt(col) is '}'
+        @editor.insertText "\n\n"
+        @indent e
+        @editor.setCursorBufferPosition([row, 0])
+        @indent e
+        @editor.setCursorBufferPosition([row + 1, 0])
+        @editor.moveToEndOfLine()
+      else
+        @editor.insertText "\n"
+      @indent e
