@@ -6,9 +6,6 @@ module.exports =
     autoActivateOnCSource:
       type: 'boolean'
       default: true
-    autoCheckNorm:
-      type: 'boolean'
-      default: false
 
   normByEditor: null
 
@@ -20,9 +17,6 @@ module.exports =
 
       norm = new EpitechNorm(editor)
       @normByEditor.set(editor, norm)
-
-      editor.onDidStopChanging () =>
-        getNorm(activeEditor())?.checkNorm() if atom.config.get('epitech-norm.autoCheckNorm')
 
     getNorm = (e) =>
       return null unless e and @normByEditor
@@ -42,5 +36,3 @@ module.exports =
         getNorm(activeEditor())?.insertTab(e)
       'epitech-norm:newLine': (e) =>
         getNorm(activeEditor())?.insertNewLine(e)
-      'epitech-norm:checkNorm': (e) =>
-        getNorm(activeEditor())?.checkNorm(e)

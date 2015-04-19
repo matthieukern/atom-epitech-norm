@@ -1,11 +1,11 @@
 /*
-** test.c for test in /home/kern_m/.atom/packages/atom-epitech-norm/tests/
+** test.c for test in /home/kern_m/.atom/packages/epitech-norm/tests/
 **
 ** Made by Matthieu Kern
 ** Login   <kern_m@epitech.eu>
 **
-** Started on  Sat Apr 18 17:27:31 2015 Matthieu Kern
-** Last update Sun Apr 19 00:07:20 2015 Matthieu Kern
+** Started on  Sun Apr 19 01:47:46 2015 Matthieu Kern
+** Last update Sun Apr 19 01:53:02 2015 Matthieu Kern
 */
 
 #include <stdio.h>

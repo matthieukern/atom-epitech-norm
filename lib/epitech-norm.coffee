@@ -1,17 +1,13 @@
-EpitechNormChecker = require('./epitech-norm-checker')
-
 module.exports =
 class EpitechNorm
   activated: false
   defaultTabLength: 0
-  normChecker: null
 
   constructor: (@editor) ->
     @defaultTabLength = atom.config.get 'editor.tabLength'
     [..., fileName] = @editor.getPath().split "/"
     if atom.config.get('epitech-norm.autoActivateOnCSource')
       if fileName.match /^.*\.[ch]$/ then @norm()
-    @normChecker = new EpitechNormChecker(@editor)
 
   norm: ->
     @activated = true
@@ -80,9 +76,3 @@ class EpitechNorm
       return
     @editor.insertText "\n"
     @indent e
-
-  checkNorm: (e) ->
-    unless @activated
-      e.abortKeyBinding() if e
-      return
-    @normChecker.check() if @normChecker
