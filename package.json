@@ -1,7 +1,7 @@
 {
   "name": "epitech-norm",
   "main": "./lib/main",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Allows you to code with a Epitech's norm compliant style.",
   "repository": "https://github.com/matthieukern/atom-epitech-norm",
   "license": "MIT",
