@@ -9,6 +9,18 @@ class EpitechNorm
     if atom.config.get('epitech-norm.autoActivateOnCSource')
       if fileName.match /^.*\.[ch]$/ then @norm()
 
+  replaceTabsBySpaces: (str) ->
+    i = 0
+    ret = ""
+    for ch in str
+      if ch == '\t'
+        ret += " ".repeat(8 - i % 8)
+        i += 8 - i % 8
+      else
+        ret += ch
+        i += 1
+    return ret
+
   norm: ->
     @activated = true
     @editor.setTabLength 8
@@ -35,6 +47,7 @@ class EpitechNorm
     ind = 0
     last = 0
     text = @editor.getText()
+    spacesBeforeArgs = 0
     braces = []
     for line in text.split "\n"
       temp = line.replace(/^\s+/, "")
@@ -46,11 +59,21 @@ class EpitechNorm
         ind -= 1 + last + shift
         last = 0
 
+      tmpLine = @replaceTabsBySpaces line
+      tmp = tmpLine.match /^(.*?[^\s]+\().*$/
+      if tmp and ind == 0
+        spacesBeforeArgs = tmp[1].length
+
+      else if lineNb == 0 and spacesBeforeArgs > 0 and ind == 0
+        if tmpLine.match /^[^{]/
+          return "\t".repeat(spacesBeforeArgs // 8) + " ".repeat(spacesBeforeArgs % 8) + temp
+
       if lineNb == 0
         ind += shift - if line.match /.*[{}].*/ then last else 0
         return "\t".repeat(ind // 4) + "  ".repeat(ind % 4) + temp
 
       if line.match /.*\{.*/
+        spacesBeforeArgs = 0
         ind += + 1 - last
         braces.push(0)
         last = 0

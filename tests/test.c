@@ -5,7 +5,7 @@
 ** Login   <kern_m@epitech.eu>
 **
 ** Started on  Sun Apr 19 01:47:46 2015 Matthieu Kern
-** Last update Sun Apr 19 23:26:50 2015 Matthieu Kern
+** Last update Mon Apr 20 03:10:06 2015 Matthieu Kern
 */
 
 #include <stdio.h>
@@ -57,16 +57,20 @@ int	main()
 
 void fun1()
 {
-  if (1) {}
+  if (1) {
+    printf("test");
+  }
 }
 
-void	fun2()
+void	fun2(int a,
+	     int b,
+	     int c)
 {
   int	a;
 
   if (1)
   {
-    printf("test");
+    printf("%d",12);
   }
 }
 
@@ -79,13 +83,16 @@ void fun3()
     ;
 }
 
+ /*
+ ** TEST
+ a	*/
 void	fun4( int a )
 {
   double	w;
   int	z;
 
   z = 3;
-  printf("%d\n", z);
+  printf("%d\n",11);
 }
 
 void fun5()
