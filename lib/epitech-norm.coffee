@@ -7,7 +7,7 @@ class EpitechNorm
     @defaultTabLength = atom.config.get 'editor.tabLength'
     [..., fileName] = @editor.getPath().split "/"
     if atom.config.get('epitech-norm.autoActivateOnCSource')
-      if fileName.match /^.*\.[ch]$/ then @norm()
+      if fileName.match /^.*\.[ch]$/ then @enable()
 
   replaceTabsBySpaces: (str) ->
     i = 0
@@ -21,7 +21,10 @@ class EpitechNorm
         i += 1
     return ret
 
-  norm: ->
+  toggle: ->
+    if @activated then @disable() else @enable()
+
+  enable: ->
     @activated = true
     @editor.setTabLength 8
 

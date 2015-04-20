@@ -26,10 +26,8 @@ module.exports =
       atom.workspace.getActiveTextEditor()
 
     atom.commands.add 'atom-workspace',
-      'epitech-norm:enable': =>
-        getNorm(activeEditor())?.norm()
-      'epitech-norm:disable': =>
-        getNorm(activeEditor())?.disable()
+      'epitech-norm:toggle': =>
+        getNorm(activeEditor())?.toggle()
       'epitech-norm:indent': (e) =>
         getNorm(activeEditor())?.indent(e)
       'epitech-norm:insertTab': (e) =>
