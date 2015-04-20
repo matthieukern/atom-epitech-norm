@@ -51,7 +51,10 @@ class EpitechNorm
     last = 0
     text = @editor.getText()
     spacesBeforeArgs = 0
+    skip = false
+    multiLines = false
     braces = []
+    parens = []
     for line in text.split "\n"
       temp = line.replace(/^\s+/, "")
       shift = 0
@@ -63,20 +66,29 @@ class EpitechNorm
         last = 0
 
       tmpLine = @replaceTabsBySpaces line
-      tmp = tmpLine.match /^(.*?[^\s]+\().*$/
-      if tmp and ind == 0
-        spacesBeforeArgs = tmp[1].length
 
-      else if lineNb == 0 and spacesBeforeArgs > 0 and ind == 0
-        if tmpLine.match /^[^{]/
-          return "\t".repeat(spacesBeforeArgs // 8) + " ".repeat(spacesBeforeArgs % 8) + temp
+      if lineNb == 0 and parens.length > 0
+        return "\t".repeat(parens[parens.length - 1] // 8) + " ".repeat(parens[parens.length - 1] % 8) + temp
+
+      skip = parens.length > 0
+
+      c = 1
+      while match = (new RegExp("(?:(.*?\\\(){" + c + "})")).exec(tmpLine)
+        parens.push(match[0].length)
+        c += 1
+
+      c = 1
+      while match = (new RegExp("(?:(.*?\\\)){" + c + "})")).exec(tmpLine)
+        parens.pop()
+        c += 1
 
       if lineNb == 0
-        ind += shift - if line.match /.*[{}].*/ then last else 0
+        ind += shift - if line.match /.*[\{\}].*/ then last else 0
+        if ind < 0
+          return temp
         return "\t".repeat(ind // 4) + "  ".repeat(ind % 4) + temp
 
       if line.match /.*\{.*/
-        spacesBeforeArgs = 0
         ind += + 1 - last
         braces.push(0)
         last = 0
@@ -87,9 +99,18 @@ class EpitechNorm
           braces[braces.length - 1] = braces[braces.length - 1] + 1
         last = 1
       else
-        if last
-          ind -= if braces.length > 0 and braces[braces.length - 1] then braces.pop() else 1
-        last = 0
+        if parens.length == 0 and not skip
+            if last
+              ind -= if braces.length > 0 and braces[braces.length - 1] then braces.pop() else 1
+            last = 0
+        if not last
+          if line.match /\=.*[^;][\s]*$/
+            ind += 1
+            multiLines = true
+          else
+            if multiLines
+              ind -= 1
+            multiLines = false
 
       lineNb = lineNb - 1
     return ""
