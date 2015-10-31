@@ -7,7 +7,7 @@ class EpitechNorm
     @defaultTabLength = atom.config.get 'editor.tabLength'
     [..., fileName] = @editor.getPath().split "/"
     if atom.config.get('epitech-norm.autoActivateOnCSource')
-      if fileName.match /^.*\.[ch]$/ then @enable()
+      if fileName.match(/^.*\.[ch]$/) then @enable()
 
   replaceTabsBySpaces: (str) ->
     i = 0
@@ -59,7 +59,7 @@ class EpitechNorm
       temp = line.replace(/^\s+/, "").replace(/\r/, "")
       shift = 0
 
-      if line.match /.*\}.*/
+      if line.match(/.*\}.*/)
         shift = braces.pop() if braces.length > 0
         shift = braces.pop() if shift == 0 and braces.length > 0 and braces[braces.length - 1] > 0
         ind -= 1 + last + shift
@@ -83,7 +83,7 @@ class EpitechNorm
         c += 1
 
       if lineNb == 0
-        ind += shift - if line.match /.*[\{\}].*/ then last else 0
+        ind += shift - if line.match(/.*[\{\}].*/) then last else 0
         if ind < 1
           return temp
         if line.match(/\s+[\{\}]\s*\r?/)
@@ -92,7 +92,7 @@ class EpitechNorm
           ind -= 0.5
         return "\t".repeat((ind * 2 - 1) // 4) + "  ".repeat((ind * 2 - 1) % 4) + temp
 
-      if line.match /.*\{.*/
+      if line.match(/.*\{.*/)
         ind += + 1 - last
         braces.push(0)
         last = 0
@@ -109,7 +109,7 @@ class EpitechNorm
               ind -= if braces.length > 0 and braces[braces.length - 1] then braces.pop() else 1
             last = 0
         if not last
-          if line.match /\=.*[^;][\s]*\r?$/
+          if line.match(/\=.*[^;\r][\s]*$/) or line.match(/\=.*[^;][\s]*\r$/)
             ind += 1
             multiLines = true
           else
