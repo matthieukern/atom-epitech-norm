@@ -84,9 +84,13 @@ class EpitechNorm
 
       if lineNb == 0
         ind += shift - if line.match /.*[\{\}].*/ then last else 0
-        if ind < 0
+        if ind < 1
           return temp
-        return "\t".repeat(ind // 4) + "  ".repeat(ind % 4) + temp
+        if line.match(/\s+[\{\}]\s*\r?/)
+          ind += 0.5
+        else if last
+          ind -= 0.5
+        return "\t".repeat((ind * 2 - 1) // 4) + "  ".repeat((ind * 2 - 1) % 4) + temp
 
       if line.match /.*\{.*/
         ind += + 1 - last
@@ -135,6 +139,8 @@ class EpitechNorm
         @editor.insertText "\n\n"
         @indent e
         @editor.setCursorBufferPosition([row, 0])
+        @indent e
+        @editor.setCursorBufferPosition([row + 2, 0])
         @indent e
         @editor.setCursorBufferPosition([row + 1, 0])
         @editor.moveToEndOfLine()
