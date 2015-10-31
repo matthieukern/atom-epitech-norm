@@ -44,7 +44,7 @@ class EpitechNorm
       line = @editor.getText().split("\n")[row]
       indentedRow = @getIndentedRow row
       @editor.setTextInBufferRange([[row, 0], [row, col]], indentedRow)
-      @editor.setCursorBufferPosition([saveRow, saveCol + indentedRow.length - line.length])
+      @editor.setCursorBufferPosition([saveRow, saveCol + indentedRow.length - line.length + if line.match(/.*\r.*/) then 1 else 0])
 
   getIndentedRow: (lineNb) ->
     ind = 0
@@ -56,7 +56,7 @@ class EpitechNorm
     braces = []
     parens = []
     for line in text.split "\n"
-      temp = line.replace(/^\s+/, "")
+      temp = line.replace(/^\s+/, "").replace(/\r/, "")
       shift = 0
 
       if line.match /.*\}.*/
@@ -92,7 +92,8 @@ class EpitechNorm
         ind += + 1 - last
         braces.push(0)
         last = 0
-      else if line.match /.*(if|while|for|do|else)\s*\(.*/
+      else if parens.length == 0 and line.match(/.*(if|while|for|do)\s*\(.*\).*;\s*\r?$/) or line.match(/.*else.*;\s*\r?$/)
+      else if line.match(/.*else.*/) or line.match(/.*(if|while|for|do)\s*\(.*/)
         ind += 1
         if last
           braces.push(0) unless braces.length
@@ -104,7 +105,7 @@ class EpitechNorm
               ind -= if braces.length > 0 and braces[braces.length - 1] then braces.pop() else 1
             last = 0
         if not last
-          if line.match /\=.*[^;][\s]*$/
+          if line.match /\=.*[^;][\s]*\r?$/
             ind += 1
             multiLines = true
           else
