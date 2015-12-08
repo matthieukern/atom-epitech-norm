@@ -56,7 +56,7 @@ class EpitechNorm
     multiLines = false
     braces = []
     parens = []
-    for line in text.split "\n"
+    for line in text.split("\n")
       temp = line.replace(/^\s+/, "").replace(/\r/, "")
       shift = 0
 
@@ -103,6 +103,7 @@ class EpitechNorm
         if last
           braces.push(0) unless braces.length
           braces[braces.length - 1] = braces[braces.length - 1] + 1
+          ind -= 0.5
         last = 1
       else
         if parens.length == 0 and not skip
