@@ -12,7 +12,10 @@ class EpitechNorm
       if atom.config.get('epitech-norm.autoActivateOnMakefileSource')
         if fileName.match(/^Makefile$/) then @enable()
       if atom.config.get('epitech-norm.autoActivateOnCppSource')
-        if fileName.match(/^.*\.cpp$/) then @enable()
+        if fileName.match(/^.*\.cpp$/)
+          @enable()
+        else if fileName.match(/^.*\.hpp$/)
+          @enable()
 
   replaceTabsBySpaces: (str) ->
     i = 0
