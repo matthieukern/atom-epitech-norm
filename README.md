@@ -14,6 +14,8 @@ This package is still a work in progress. Some bugs could remains and the code y
 
 ## Config
 * Auto Activate On C Source: Auto activate the norm-compliant style on C source files.
+* Auto Activate On Cpp Source: Auto activate the norm-compliant style on Cpp source files.
+* Auto Activate On Makefile Source: Auto activate the norm-compliant style on Makefile source files.
 
 ## Todo
 * Adapt the plugin to Makefiles.
