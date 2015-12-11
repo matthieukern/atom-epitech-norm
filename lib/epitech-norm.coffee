@@ -9,6 +9,10 @@ class EpitechNorm
       [..., fileName] = @editor.getPath().split "/"
       if atom.config.get('epitech-norm.autoActivateOnCSource')
         if fileName.match(/^.*\.[ch]$/) then @enable()
+      if atom.config.get('epitech-norm.autoActivateOnMakefileSource')
+        if fileName.match(/^Makefile$/) then @enable()
+      if atom.config.get('epitech-norm.autoActivateOnCppSource')
+        if fileName.match(/^.*\.cpp$/) then @enable()
 
   replaceTabsBySpaces: (str) ->
     i = 0
@@ -98,12 +102,15 @@ class EpitechNorm
         braces.push(0)
         last = 0
       else if parens.length == 0 and line.match(/.*(if|while|for|do)\s*\(.*\).*;\s*\r?$/) or line.match(/.*else.*;\s*\r?$/)
+        console.log("Condition closed")
       else if line.match(/.*else.*/) or line.match(/.*(if|while|for|do)\s*\(.*/)
         ind += 1
         if last
           braces.push(0) unless braces.length
           braces[braces.length - 1] = braces[braces.length - 1] + 1
+          console.log(braces)
           ind -= 0.5
+          console.log("(if|while|for|do) ind= " + ind)
         last = 1
       else
         if parens.length == 0 and not skip

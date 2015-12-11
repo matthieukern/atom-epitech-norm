@@ -6,6 +6,12 @@ module.exports =
     autoActivateOnCSource:
       type: 'boolean'
       default: true
+    autoActivateOnMakefileSource:
+      type: 'boolean'
+      default: true
+    autoActivateOnCppSource:
+      type: 'boolean'
+      default: true
 
   normByEditor: null
 
