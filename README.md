@@ -13,8 +13,8 @@ This package is still a work in progress. Some bugs could remains and the code y
   * `epitech-norm:newLine`: Insert a new line.
 
 ## Config
-* Auto Activate On C Source: Auto activate the norm-compliant style on C source files.
-* Auto Activate On Cpp Source: Auto activate the norm-compliant style on Cpp source files.
+* Auto Activate On C Source: Auto activate the norm-compliant style on C/H source files.
+* Auto Activate On Cpp Source: Auto activate the norm-compliant style on Cpp/Hpp source files.
 * Auto Activate On Makefile Source: Auto activate the norm-compliant style on Makefile source files.
 
 ## Todo
